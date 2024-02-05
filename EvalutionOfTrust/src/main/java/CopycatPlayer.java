@@ -11,6 +11,7 @@ public class CopycatPlayer implements Player{
     }
 
     public void copyAction() {
-        this.lastOpponentAction = Action.COOPERATE;
+        if(lastOpponentAction == Action.CHEAT)this.lastOpponentAction = Action.COOPERATE;
+        else this.lastOpponentAction = Action.CHEAT;
     }
 }

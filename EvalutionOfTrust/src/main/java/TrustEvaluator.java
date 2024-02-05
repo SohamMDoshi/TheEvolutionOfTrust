@@ -34,13 +34,17 @@ public class TrustEvaluator {
         }
         if (firstPlayer instanceof CopycatPlayer){
             if(round == 1 && (scoreOfPlayerOne == 3 && scoreOfAnotherPlayer == -1)) ((CopycatPlayer) firstPlayer).copyAction();
+            else if (round > 1 && secondPlayer instanceof CopyKittenPlayer) ((CopycatPlayer) firstPlayer).copyAction();
         }
         if (secondPlayer instanceof CopycatPlayer)
             if(round == 1 && (scoreOfPlayerOne == -1 && scoreOfAnotherPlayer == 3)) ((CopycatPlayer) secondPlayer).copyAction();
-        if (firstPlayer instanceof CopyKitten){
-            if(round == 1 && (scoreOfPlayerOne == -1 && scoreOfAnotherPlayer == -3)) ((CopyKitten) firstPlayer).copyAction();
+            else if (round > 1 && firstPlayer instanceof CopyKittenPlayer) ((CopycatPlayer) secondPlayer).copyAction();
+        if (firstPlayer instanceof CopyKittenPlayer){
+            if(round == 1 && (scoreOfPlayerOne == -1 && scoreOfAnotherPlayer == -3)) ((CopyKittenPlayer) firstPlayer).copyAction();
+            else if (round > 1 && secondPlayer instanceof CopycatPlayer) ((CopyKittenPlayer) firstPlayer).copyAction();
         }
-        if (secondPlayer instanceof CopyKitten)
-            if(round == 1 && (scoreOfPlayerOne == 3 && scoreOfAnotherPlayer == -1)) ((CopyKitten) secondPlayer).copyAction();
+        if (secondPlayer instanceof CopyKittenPlayer)
+            if(round == 1 && (scoreOfPlayerOne == 3 && scoreOfAnotherPlayer == -1)) ((CopyKittenPlayer) secondPlayer).copyAction();
+            else if (round > 1 && firstPlayer instanceof CopycatPlayer) ((CopyKittenPlayer) secondPlayer).copyAction();
     }
 }
