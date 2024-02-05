@@ -5,12 +5,12 @@ public class CopycatPlayer implements Player{
         this.lastOpponentAction = Action.CHEAT;
     }
 
-    public void updateLastOpponentAction(Action opponentAction) {
-        this.lastOpponentAction = opponentAction;
-    }
-
     @Override
     public Action act() {
         return lastOpponentAction;
+    }
+
+    public void copyAction() {
+        this.lastOpponentAction = Action.COOPERATE;
     }
 }
