@@ -5,51 +5,74 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class TrustEvaluatorTest {
 
     @Test
-    public void testPlayerBothPlayerCooperate() {
-        Player firstPlayer = new AlwaysCheat();
-        Player secondPlayer = new AlwaysCheat();
+    public void testWhenTwoAlwaysCheatingPlayerPlayEachOther() {
+        Player firstPlayer = new CheatingPlayer();
+        Player secondPlayer = new CheatingPlayer();
         TrustEvaluator trustEvaluator = new TrustEvaluator(firstPlayer,secondPlayer);
-        trustEvaluator.evaluate(firstPlayer,Action.COOPERATE,secondPlayer,Action.COOPERATE);
-        assertEquals(firstPlayer.getScore(), secondPlayer.getScore());
+        int[] result = trustEvaluator.simulate(5);
+        int scoreOfFirstPlayer = result[0];
+        int scoreOfSecondPlayer = result[1];
+        assertEquals(0,scoreOfFirstPlayer);
+        assertEquals(0,scoreOfSecondPlayer);
     }
 
     @Test
-    public void testPlayerOnePlayerCheatAnotherCheat() {
-        Player firstPlayer = new AlwaysCheat();
-        Player secondPlayer = new AlwaysCheat();
+    public void testWhenTwoAlwaysCooperativePlayEachOther() {
+        Player firstPlayer = new CooperativePlayer();
+        Player secondPlayer = new CooperativePlayer();
         TrustEvaluator trustEvaluator = new TrustEvaluator(firstPlayer,secondPlayer);
-        trustEvaluator.evaluate(firstPlayer,Action.CHEAT,secondPlayer,Action.COOPERATE);
-        assertEquals(2,firstPlayer.getScore());
-        assertEquals(-1,secondPlayer.getScore());
+        int[] result = trustEvaluator.simulate(5);
+        int scoreOfFirstPlayer = result[0];
+        int scoreOfSecondPlayer = result[1];
+        assertEquals(10,scoreOfFirstPlayer);
+        assertEquals(10,scoreOfSecondPlayer);
     }
 
     @Test
-    public void testWhenTwoAlwaysCheatPlayerPlayEachOther() {
-        Player firstPlayer = new AlwaysCheat();
-        Player secondPlayer = new AlwaysCheat();
+    public void testWhenOneCheatingAndOneCooperativePlayerPlayEachOther() {
+        Player firstPlayer = new CooperativePlayer();
+        Player secondPlayer = new CheatingPlayer();
         TrustEvaluator trustEvaluator = new TrustEvaluator(firstPlayer,secondPlayer);
-        trustEvaluator.play(5);
-        assertEquals(0,firstPlayer.getScore());
-        assertEquals(0,secondPlayer.getScore());
+        int[] result = trustEvaluator.simulate(5);
+        int scoreOfFirstPlayer = result[0];
+        int scoreOfSecondPlayer = result[1];
+        assertEquals(-5,scoreOfFirstPlayer);
+        assertEquals(15,scoreOfSecondPlayer);
     }
 
     @Test
-    public void testWhenTwoAlwaysCooperatePlayEachOther() {
-        Player firstPlayer = new AlawysCooperate();
-        Player secondPlayer = new AlawysCooperate();
+    public void testWhenTwoCopycatPlayerPlayEachOther() {
+        Player firstPlayer = new CopycatPlayer();
+        Player secondPlayer = new CopycatPlayer();
         TrustEvaluator trustEvaluator = new TrustEvaluator(firstPlayer,secondPlayer);
-        trustEvaluator.play(5);
-        assertEquals(10,firstPlayer.getScore());
-        assertEquals(10,secondPlayer.getScore());
+        int[] result = trustEvaluator.simulate(5);
+        int scoreOfFirstPlayer = result[0];
+        int scoreOfSecondPlayer = result[1];
+        assertEquals(0,scoreOfFirstPlayer);
+        assertEquals(0,scoreOfSecondPlayer);
     }
 
     @Test
-    public void testWhenOneAlwaysCheatAndOneCooperatePlayerPlayEachOther() {
-        Player firstPlayer = new AlawysCooperate();
-        Player secondPlayer = new AlwaysCheat();
+    public void testWhenOneCopycatPlayerAndCooperativePlayerPlayEachOther() {
+        Player firstPlayer = new CopycatPlayer();
+        Player secondPlayer = new CooperativePlayer();
         TrustEvaluator trustEvaluator = new TrustEvaluator(firstPlayer,secondPlayer);
-        trustEvaluator.play(5);
-        assertEquals(-5,firstPlayer.getScore());
-        assertEquals(15,secondPlayer.getScore());
+        int[] result = trustEvaluator.simulate(5);
+        int scoreOfFirstPlayer = result[0];
+        int scoreOfSecondPlayer = result[1];
+        assertEquals(11,scoreOfFirstPlayer);
+        assertEquals(7,scoreOfSecondPlayer);
+    }
+
+    @Test
+    public void testWhenOneCopycatPlayerAndCheatingPlayerPlayEachOther() {
+        Player firstPlayer = new CheatingPlayer();
+        Player secondPlayer = new CopycatPlayer();
+        TrustEvaluator trustEvaluator = new TrustEvaluator(firstPlayer,secondPlayer);
+        int[] result = trustEvaluator.simulate(5);
+        int scoreOfFirstPlayer = result[0];
+        int scoreOfSecondPlayer = result[1];
+        assertEquals(0,scoreOfFirstPlayer);
+        assertEquals(0,scoreOfSecondPlayer);
     }
 }

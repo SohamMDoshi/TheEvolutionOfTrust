@@ -4,33 +4,41 @@ public class TrustEvaluator {
 
     private Player secondPlayer;
 
+    private int scoreOfPlayerOne;
+    private int scoreOfAnotherPlayer;
+
     public TrustEvaluator(Player player1, Player player2) {
         this.firstPlayer = player1;
+        this.scoreOfPlayerOne =0;
         this.secondPlayer = player2;
+        this.scoreOfAnotherPlayer = 0;
     };
 
-    public void play(int round) {
+    public int[] simulate(int round) {
         for (int i = 1; i <= round ; i++) {
-            Action actionOfPlayerOne = firstPlayer.action(secondPlayer);
-            Action actionOfPlayerTwo = secondPlayer.action(firstPlayer);
+            Action actionOfPlayerOne = firstPlayer.act();
+            Action actionOfPlayerTwo = secondPlayer.act();
 
-            evaluate(firstPlayer, actionOfPlayerOne,secondPlayer,actionOfPlayerTwo);
+            evaluate(actionOfPlayerOne,actionOfPlayerTwo);
         }
+        return new int[] {scoreOfPlayerOne,scoreOfAnotherPlayer};
     }
 
-    public void evaluate(Player firstPlayer, Action actionOfFirstPlayer, Player secondPlayer, Action actionOfSecondPlayer) {
+    private void evaluate(Action actionOfFirstPlayer,Action actionOfSecondPlayer) {
         if (actionOfFirstPlayer == Action.COOPERATE && actionOfSecondPlayer == Action.CHEAT) {
-            firstPlayer.minusPoint();
-            secondPlayer.plusThreePoints();
+            scoreOfPlayerOne--;
+            scoreOfAnotherPlayer+=3;
         }
         else if (actionOfFirstPlayer == Action.COOPERATE && actionOfSecondPlayer == Action.COOPERATE) {
-            firstPlayer.plusTwoPoints();
-            secondPlayer.plusTwoPoints();
+            scoreOfPlayerOne+=2;
+            scoreOfAnotherPlayer+=2;
         }
         else if(actionOfFirstPlayer == Action.CHEAT && actionOfSecondPlayer == Action.COOPERATE) {
-            firstPlayer.plusThreePoints();
-            secondPlayer.minusPoint();
+            scoreOfPlayerOne+=3;
+            scoreOfAnotherPlayer--;
         }
+        if (firstPlayer instanceof CopycatPlayer) ((CopycatPlayer) firstPlayer).updateLastOpponentAction(actionOfSecondPlayer);
+        if (secondPlayer instanceof CopycatPlayer) ((CopycatPlayer) secondPlayer).updateLastOpponentAction(actionOfFirstPlayer);
     }
 
 
