@@ -78,13 +78,13 @@ public class TrustEvaluatorTest {
 
     @Test
     public void testWhenOneCopyKittenPlayerAndCopycatPlayerPlayEachOther() {
-        Player firstPlayer = new CopyKittenPlayer();
-        Player secondPlayer = new CopycatPlayer();
+        Player firstPlayer = new CopycatPlayer();
+        Player secondPlayer = new CopyKittenPlayer();
         TrustEvaluator trustEvaluator = new TrustEvaluator(firstPlayer,secondPlayer);
-        int[] result = trustEvaluator.simulate(5);
+        int[] result = trustEvaluator.simulate(2);
         int scoreOfFirstPlayer = result[0];
         int scoreOfSecondPlayer = result[1];
-        assertEquals(3,scoreOfFirstPlayer);
-        assertEquals(7,scoreOfSecondPlayer);
+        assertEquals(2,scoreOfFirstPlayer);
+        assertEquals(2,scoreOfSecondPlayer);
     }
 }

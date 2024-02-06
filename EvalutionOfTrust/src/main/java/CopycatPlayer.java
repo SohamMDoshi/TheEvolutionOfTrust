@@ -1,17 +1,22 @@
-public class CopycatPlayer implements Player{
-    private Action lastOpponentAction;
+public class CopycatPlayer extends Player{
+
+    private boolean gainedLastRound = false;
 
     public CopycatPlayer() {
-        this.lastOpponentAction = Action.CHEAT;
+        super();
     }
 
     @Override
     public Action act() {
-        return lastOpponentAction;
+        Action action = Action.CHEAT;
+        if(gainedLastRound) action = Action.COOPERATE;
+        gainedLastRound = false;
+        return action;
     }
 
-    public void copyAction() {
-        if(lastOpponentAction == Action.CHEAT)this.lastOpponentAction = Action.COOPERATE;
-        else this.lastOpponentAction = Action.CHEAT;
+    @Override
+    public void gain(){
+        this.gainedLastRound = true;
+        super.gain();
     }
 }

@@ -1,4 +1,4 @@
-public class CooperativePlayer implements Player{
+public class CooperativePlayer extends Player{
     @Override
     public Action act() {
         return Action.COOPERATE;

@@ -1,18 +1,25 @@
-public class CopyKittenPlayer implements Player{
-    private Action lastOpponentAction;
+public class CopyKittenPlayer extends Player{
+
+
+    private boolean gainedLastRound = true;
 
     public CopyKittenPlayer() {
-        this.lastOpponentAction = Action.COOPERATE;
+        super();
     }
 
     @Override
     public Action act() {
-        return lastOpponentAction;
+        Action action = Action.CHEAT;
+        if(gainedLastRound)
+            action = Action.COOPERATE;
+
+        gainedLastRound = false;
+        return action;
     }
 
-    public void copyAction() {
-
-        if(this.lastOpponentAction == Action.CHEAT) lastOpponentAction = Action.COOPERATE;
-        else this.lastOpponentAction = Action.CHEAT;
+    @Override
+    public void gain(){
+        this.gainedLastRound = true;
+        super.gain();
     }
 }
